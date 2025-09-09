@@ -55,9 +55,35 @@ function moveCible(step) {
 
 let intervalId: number | null = null;
 
-function startInterval(step, time) {
+function startInterval() {
     if (!intervalId) {
-        intervalId = setInterval(() => moveCible(step), time);
+        const levelElement = document.getElementById("level");
+        // change difficulty depending on level
+        if (levelElement){
+            const currentLevel = levelElement.innerHTML;
+            interface Level {
+                step : number,
+                time : number
+            }
+            const levels:Level[]=[
+                {step:5, time:25},
+                {step:5, time:15},
+                {step:5, time:5},
+            ]
+            const [level1, level2, level3] = levels;
+            switch (currentLevel){
+                case "Level 1":
+                    intervalId = setInterval(() => moveCible(level1.step), level1.time);
+                    break;
+                case "Level 2":
+                    intervalId = setInterval(() => moveCible(level2.step), level2.time);
+                    break;
+                case "Level 3":
+                    intervalId = setInterval(() => moveCible(level3.step), level3.time);
+                    break;
+            }
+            
+        };
     }
 }
 
@@ -69,4 +95,4 @@ function stopInterval() {
 }
 
 // Démarre le mouvement au chargement
-window.onload = function() { startInterval(5, 10); };
+window.onload = function() { startInterval(); };
