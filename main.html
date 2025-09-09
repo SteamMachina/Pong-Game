@@ -7,17 +7,6 @@
   <body>
     <div id="grid"></div>
     <img id="sprite" src="./images/panguin.png" alt="Penguin" />
-    <script>
-      // Generate a 5x8 grid dynamically
-      const grid = document.getElementById("grid");
-      const cols = 8;
-      const rows = 5;
-      grid.innerHTML = "";
-      for (let i = 0; i < cols * rows; i++) {
-        const cell = document.createElement("div");
-        cell.className = "cell";
-        grid.appendChild(cell);
-      }
-    </script>
+    <script src="./script.js"></script>
   </body>
 </html>

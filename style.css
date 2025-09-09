@@ -45,8 +45,8 @@ html {
 #sprite {
   position: absolute;
   z-index: 2;
-  width: 40px;
-  height: 40px;
+  /* width and height set by JS to half a tile */
   top: 10px;
   left: 10px;
+  pointer-events: none;
 }
