@@ -1,1 +1,1 @@
-# SoundMaze
+# Pong game
