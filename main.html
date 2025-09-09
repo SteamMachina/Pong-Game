@@ -1,34 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <title>Sound Maze</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
-        <div id="grid">
-            <!-- 100 squares for a 10x10 grid -->
-            <!-- You can adjust the number as needed -->
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <!-- ...repeat until 100 cells... -->
-        </div>
-        <img id="sprite" src="sprite.png" alt="Sprite" />
-        <script>
-            // Generate grid cells dynamically for convenience
-            const grid = document.getElementById('grid');
-            for(let i=0; i<100; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'cell';
-                grid.appendChild(cell);
-            }
-        </script>
-    </body>
+  <head>
+    <title>Sound Maze</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="grid"></div>
+    <img id="sprite" src="./images/panguin.png" alt="Penguin" />
+    <script>
+      // Generate a 5x8 grid dynamically
+      const grid = document.getElementById("grid");
+      const cols = 8;
+      const rows = 5;
+      grid.innerHTML = "";
+      for (let i = 0; i < cols * rows; i++) {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        grid.appendChild(cell);
+      }
+    </script>
+  </body>
 </html>
