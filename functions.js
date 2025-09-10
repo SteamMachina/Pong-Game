@@ -7,14 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-export let targetDx = 1;
-export let targetDy = 1;
+/****************************************/
+/*                Interval              */
+/****************************************/
 export let intervalId = null;
-// makes the target move faster or slower depending on the level
+// runs the moveTarget() according to level settings
 export function startInterval() {
     try {
         if (!intervalId) {
             const target = document.getElementById("target");
+            if (!target) {
+                return;
+            }
             // change difficulty depending on level
             const currentLevel = counterLevels.getValue();
             const levels = [
@@ -22,50 +26,34 @@ export function startInterval() {
                 { step: 5, time: 10 },
                 { step: 7, time: 10 },
             ];
-            const levelsCopy = [...levels];
+            const levelsCopy = [...levels]; // done only because of project requirements, otherwise useless
             const [level1, level2, level3] = levelsCopy;
             switch (currentLevel) {
                 case 1:
-                    if (target) {
-                        target.style.backgroundColor = colors.targetLevel1;
-                    }
+                    target.style.backgroundColor = colors.targetLevel1;
                     intervalId = window.setInterval(() => moveTarget(level1.step), level1.time);
                     break;
                 case 2:
-                    if (target) {
-                        target.style.backgroundColor = colors.targetLevel2;
-                    }
+                    target.style.backgroundColor = colors.targetLevel2;
                     intervalId = window.setInterval(() => moveTarget(level2.step), level2.time);
                     break;
                 case 3:
-                    if (target) {
-                        target.style.backgroundColor = colors.targetLevel3;
-                    }
+                    target.style.backgroundColor = colors.targetLevel3;
                     intervalId = window.setInterval(() => moveTarget(level3.step), level3.time);
                     break;
             }
         }
     }
     catch (error) {
-        console.error('Error in startInterval:', error);
+        console.error("Error in startInterval:", error);
     }
 }
+// stops interval
 export function stopInterval() {
     if (intervalId) {
         clearInterval(intervalId);
         intervalId = null;
     }
-}
-// Démarre le mouvement au chargement
-export const counterLevels = createCounter();
-export const counterPoints = createCounter();
-// Returns a random float between -1.5 and 1.5
-export function getRandomDirection() {
-    return Math.random() * 3 - 1.5;
-}
-// returns sign of number
-export function sign(x) {
-    return x > 0 ? 1 : x < 0 ? -1 : 0;
 }
 export function createCounter() {
     let counter = 0;
@@ -78,12 +66,34 @@ export function createCounter() {
         },
         reset: function () {
             counter = 0;
-        }
+        },
     };
 }
+// Starts counters
+export const counterLevels = createCounter();
+export const counterPoints = createCounter();
+/****************************************/
+/*     Moving target and game flow      */
+/****************************************/
+// Pauses app for n milliseconds
+// Used right before the win alert
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
+// target position on x and y axis
+export let targetDx = 1;
+export let targetDy = 1;
+// Returns a random float between -1.5 and 1.5
+// witch mark the directin angle of the target
+export function getRandomDirection() {
+    return Math.random() * 3 - 1.5;
+}
+// returns sign of number
+// used to modify target spead in moveTarget()
+export function sign(x) {
+    return x > 0 ? 1 : x < 0 ? -1 : 0;
+}
+// Moves target according to level settings
 export function moveTarget(step) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -91,33 +101,36 @@ export function moveTarget(step) {
             const target = document.getElementById("target");
             const platform = document.getElementById("platform");
             const pit = document.getElementById("pit");
-            if (!target)
+            // check if elements exist
+            if (!platform || !pit || !target) {
                 return;
+            }
             let currentOffsetTop = parseInt(target.style.top) || 0;
             let currentOffsetLeft = parseInt(target.style.left) || 0;
             // Move according to the random direction and predefined spead
             let nextTop = currentOffsetTop + step * targetDy;
             let nextLeft = currentOffsetLeft + step * targetDx;
-            // Set next position for collision check
+            // Set next position
             target.style.top = nextTop + "px";
             target.style.left = nextLeft + "px";
             // Check for collisions with platform
-            let bounced = false;
-            if (platform && isCollidingWithElement(target, platform)) {
+            let bounced = false; // if true, target direction changes
+            if (isCollidingWithElement(target, platform)) {
                 // change of direction
                 targetDx = getRandomDirection();
-                targetDy = -sign(targetDy) * (2 - Math.abs(targetDx));
+                targetDy = -sign(targetDy) * (2 - Math.abs(targetDx)); // obj : |targetDx| + |targetDy| = 2
                 // add point and handle level up
                 const pointsElement = document.getElementById("pointsValue");
                 if (pointsElement) {
                     // Get the current points as a number
                     counterPoints.increment();
+                    // increment level if 10 points
                     if (counterPoints.getValue() >= 10) {
-                        // increment level
                         const levelElement = document.getElementById("levelValue");
                         if (levelElement) {
                             // Get the current points as a number
                             counterLevels.increment();
+                            // stop game if level 3 cleared
                             if (counterLevels.getValue() > 3) {
                                 stopInterval();
                                 const winText = document.getElementById("winText");
@@ -130,8 +143,8 @@ export function moveTarget(step) {
                             }
                             levelElement.innerHTML = `${counterLevels.getValue()}`;
                         }
+                        // Restart interval and reset points for new level
                         counterPoints.reset();
-                        // Restart interval for new level
                         pointsElement.innerHTML = `${counterPoints.getValue()}`;
                         stopInterval();
                         startInterval();
@@ -141,18 +154,20 @@ export function moveTarget(step) {
                 bounced = true;
             }
             // check if collision with pit
-            if (pit && isCollidingWithElement(target, pit)) {
+            if (isCollidingWithElement(target, pit)) {
                 // Show notification and reload the page
                 alert("Game over! The ball fell into the pit. The game will restart.");
                 window.location.reload();
             }
             // Check for collisions with screen borders
             const rect = target.getBoundingClientRect();
+            // if collision on top
             if (rect.left <= 0 || rect.right >= window.innerWidth) {
                 targetDx = -targetDx;
                 bounced = true;
             }
-            if (rect.top <= 0 || rect.bottom >= window.innerHeight) {
+            // if collision left or right
+            if (rect.top <= 0) {
                 targetDy = -targetDy;
                 bounced = true;
             }
@@ -165,11 +180,11 @@ export function moveTarget(step) {
             }
         }
         catch (error) {
-            console.error('Error in moveTarget:', error);
+            console.error("Error in moveTarget:", error);
         }
     });
 }
-// Checks for collisions with elements pit and platform
+// Checks for collisions with an elements
 export function isCollidingWithElement(a, b) {
     const rectA = a.getBoundingClientRect();
     const rectB = b.getBoundingClientRect();
@@ -177,14 +192,6 @@ export function isCollidingWithElement(a, b) {
         rectA.left > rectB.right ||
         rectA.bottom < rectB.top ||
         rectA.top > rectB.bottom);
-}
-// Checks for collisions with screen
-export function isCollidingWithScreen(target) {
-    const rect = target.getBoundingClientRect();
-    return (rect.left <= 0 ||
-        rect.right >= window.innerWidth ||
-        rect.top <= 0 ||
-        rect.bottom >= window.innerHeight);
 }
 export const colors = {
     targetLevel1: "#00FFF9",
@@ -195,5 +202,5 @@ export const colors = {
     points: "#FF00C1",
     level: "#FF00C1",
     winText: "#FF00C1",
-    background: "black"
+    background: "black",
 };

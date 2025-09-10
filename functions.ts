@@ -8,6 +8,9 @@ export function startInterval(): void {
   try {
     if (!intervalId) {
       const target: HTMLElement | null = document.getElementById("target");
+      if (!target) {
+        return;
+      }
       // change difficulty depending on level
       const currentLevel: number = counterLevels.getValue();
 
@@ -25,21 +28,21 @@ export function startInterval(): void {
 
       switch (currentLevel) {
         case 1:
-          target?.style.backgroundColor = colors.targetLevel1;
+          target.style.backgroundColor = colors.targetLevel1;
           intervalId = window.setInterval(
             () => moveTarget(level1.step),
             level1.time
           );
           break;
         case 2:
-          target?.style.backgroundColor = colors.targetLevel2;
+          target.style.backgroundColor = colors.targetLevel2;
           intervalId = window.setInterval(
             () => moveTarget(level2.step),
             level2.time
           );
           break;
         case 3:
-          target?.style.backgroundColor = colors.targetLevel3;
+          target.style.backgroundColor = colors.targetLevel3;
           intervalId = window.setInterval(
             () => moveTarget(level3.step),
             level3.time
@@ -123,8 +126,13 @@ export async function moveTarget(step: number): Promise<void> {
     const platform: HTMLElement | null = document.getElementById("platform");
     const pit: HTMLElement | null = document.getElementById("pit");
 
-    let currentOffsetTop: number = parseInt(target?.style.top) || 0;
-    let currentOffsetLeft: number = parseInt(target?.style.left) || 0;
+    // check if elements exist
+    if (!platform || !pit || !target) {
+      return;
+    }
+
+    let currentOffsetTop: number = parseInt(target.style.top) || 0;
+    let currentOffsetLeft: number = parseInt(target.style.left) || 0;
 
     // Move according to the random direction and predefined spead
     let nextTop: number = currentOffsetTop + step * targetDy;
@@ -136,7 +144,7 @@ export async function moveTarget(step: number): Promise<void> {
 
     // Check for collisions with platform
     let bounced: boolean = false; // if true, target direction changes
-    if (platform && isCollidingWithElement(target, platform)) {
+    if (isCollidingWithElement(target, platform)) {
       // change of direction
       targetDx = getRandomDirection();
       targetDy = -sign(targetDy) * (2 - Math.abs(targetDx)); // obj : |targetDx| + |targetDy| = 2
@@ -178,14 +186,22 @@ export async function moveTarget(step: number): Promise<void> {
       bounced = true;
     }
     // check if collision with pit
-    if (pit && isCollidingWithElement(target, pit)) {
+    if (isCollidingWithElement(target, pit)) {
       // Show notification and reload the page
       alert("Game over! The ball fell into the pit. The game will restart.");
       window.location.reload();
     }
 
     // Check for collisions with screen borders
-    if (isCollidingWithScreen(target)) {
+    const rect: DOMRect = target.getBoundingClientRect();
+    // if collision on top
+    if (rect.left <= 0 || rect.right >= window.innerWidth) {
+      targetDx = -targetDx;
+      bounced = true;
+    }
+    // if collision left or right
+    if (rect.top <= 0) {
+      targetDy = -targetDy;
       bounced = true;
     }
 
@@ -213,17 +229,6 @@ export function isCollidingWithElement(
     rectA.left > rectB.right ||
     rectA.bottom < rectB.top ||
     rectA.top > rectB.bottom
-  );
-}
-
-// Checks for collisions with screen
-export function isCollidingWithScreen(target: HTMLElement): boolean {
-  const rect: DOMRect = target.getBoundingClientRect();
-  return (
-    rect.left <= 0 ||
-    rect.right >= window.innerWidth ||
-    rect.top <= 0 ||
-    rect.bottom >= window.innerHeight
   );
 }
 
