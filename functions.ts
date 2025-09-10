@@ -188,8 +188,10 @@ export async function moveTarget(step: number): Promise<void> {
     // check if collision with pit
     if (isCollidingWithElement(target, pit)) {
       // Show notification and reload the page
+      stopInterval();
       alert("Game over! The ball fell into the pit. The game will restart.");
       window.location.reload();
+      return;
     }
 
     // Check for collisions with screen borders
