@@ -9,6 +9,8 @@ body{
   border-radius: 50%;
   background-color: #00FFF9;
   position: absolute;
+  top: 0;
+  left: 0;
 }
 
 #platforme{
@@ -25,7 +27,7 @@ body{
   width: 100%;
   background-color: #FF00C1;
   position:absolute;
-  top: 84%;
+  top: 90%;
 }
 
 #info{
@@ -50,4 +52,19 @@ body{
   font-size: 4vmin;
   color: #FF00C1;
   font-family: "Lucida Console";
+}
+
+#winText.hidden {
+  display: none;
+}
+
+#winText{
+  display: block;
+  color: #FF00C1;
+  font-family: "Lucida Console";
+  font-size: 10vmin;
+  /*to center*/
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
