@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var functions_js_1 = require("./functions.js");
+import { counterLevels, startInterval, } from "./functions.js";
 /*
     This section moves the platform right and left within the bounds
     of the screen by pushing directional keys
@@ -31,10 +29,5 @@ window.addEventListener("keydown", function (event) {
     }
     platforme.style.left = currentOffsetLeft + "px";
 });
-/*
-    This section will animate the circle, randomly changing
-    direction with each collision
-*/
-// Direction state for cible
-functions_js_1.counterLevels.increment();
-window.onload = function () { (0, functions_js_1.startInterval)(); };
+counterLevels.increment();
+window.onload = function () { startInterval(); console.log(1); };

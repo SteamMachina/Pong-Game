@@ -1,4 +1,3 @@
-"use strict";
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -8,25 +7,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.counterPoints = exports.counterLevels = exports.intervalId = exports.cibleDy = exports.cibleDx = void 0;
-exports.startInterval = startInterval;
-exports.stopInterval = stopInterval;
-exports.getRandomDirection = getRandomDirection;
-exports.sign = sign;
-exports.createCounter = createCounter;
-exports.moveCible = moveCible;
-exports.isCollidingWithElement = isCollidingWithElement;
-exports.isCollidingWithScreen = isCollidingWithScreen;
-exports.cibleDx = 1;
-exports.cibleDy = 1;
-exports.intervalId = null;
+export var cibleDx = 1;
+export var cibleDy = 1;
+export var intervalId = null;
 // makes the cible move faster or slower depending on the level
-function startInterval() {
-    if (!exports.intervalId) {
+export function startInterval() {
+    console.log(2);
+    if (!intervalId) {
+        console.log(3);
         var cible = document.getElementById("cible");
         // change difficulty depending on level
-        var currentLevel = exports.counterLevels.getValue();
+        var currentLevel = counterLevels.getValue();
         var levels = [
             { step: 4, time: 10 },
             { step: 5, time: 10 },
@@ -39,41 +30,41 @@ function startInterval() {
                 if (cible) {
                     cible.style.backgroundColor = "#00FFF9";
                 }
-                exports.intervalId = setInterval(function () { return moveCible(level1_1.step); }, level1_1.time);
+                intervalId = setInterval(function () { return moveCible(level1_1.step); }, level1_1.time);
                 break;
             case 2:
                 if (cible) {
                     cible.style.backgroundColor = "#00B8FF";
                 }
-                exports.intervalId = setInterval(function () { return moveCible(level2_1.step); }, level2_1.time);
+                intervalId = setInterval(function () { return moveCible(level2_1.step); }, level2_1.time);
                 break;
             case 3:
                 if (cible) {
                     cible.style.backgroundColor = "#4900FF";
                 }
-                exports.intervalId = setInterval(function () { return moveCible(level3_1.step); }, level3_1.time);
+                intervalId = setInterval(function () { return moveCible(level3_1.step); }, level3_1.time);
                 break;
         }
     }
 }
-function stopInterval() {
-    if (exports.intervalId) {
-        clearInterval(exports.intervalId);
-        exports.intervalId = null;
+export function stopInterval() {
+    if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
     }
 }
 // Démarre le mouvement au chargement
-exports.counterLevels = createCounter();
-exports.counterPoints = createCounter();
+export var counterLevels = createCounter();
+export var counterPoints = createCounter();
 // Returns a random float between -1.5 and 1.5
-function getRandomDirection() {
+export function getRandomDirection() {
     return Math.random() * 3 - 1.5;
 }
 // returns sign of number
-function sign(x) {
+export function sign(x) {
     return x > 0 ? 1 : x < 0 ? -1 : 0;
 }
-function createCounter() {
+export function createCounter() {
     var counter = 0;
     return {
         increment: function () {
@@ -87,7 +78,8 @@ function createCounter() {
         }
     };
 }
-function moveCible(step) {
+export function moveCible(step) {
+    console.log(4);
     // takes information of the different elements
     var cible = document.getElementById("cible");
     var platforme = document.getElementById("platforme");
@@ -97,8 +89,8 @@ function moveCible(step) {
     var currentOffsetTop = parseInt(cible.style.top) || 0;
     var currentOffsetLeft = parseInt(cible.style.left) || 0;
     // Move according to the random direction and predefined spead
-    var nextTop = currentOffsetTop + step * exports.cibleDy;
-    var nextLeft = currentOffsetLeft + step * exports.cibleDx;
+    var nextTop = currentOffsetTop + step * cibleDy;
+    var nextLeft = currentOffsetLeft + step * cibleDx;
     // Set next position for collision check
     cible.style.top = nextTop + "px";
     cible.style.left = nextLeft + "px";
@@ -106,20 +98,20 @@ function moveCible(step) {
     var bounced = false;
     if (platforme && isCollidingWithElement(cible, platforme)) {
         // change of direction
-        exports.cibleDx = getRandomDirection();
-        exports.cibleDy = -sign(exports.cibleDy) * (2 - Math.abs(exports.cibleDx));
+        cibleDx = getRandomDirection();
+        cibleDy = -sign(cibleDy) * (2 - Math.abs(cibleDx));
         // add point and handle level up
         var pointsElement = document.getElementById("pointsValue");
         if (pointsElement) {
             // Get the current points as a number
-            exports.counterPoints.increment();
-            if (exports.counterPoints.getValue() >= 10) {
+            counterPoints.increment();
+            if (counterPoints.getValue() >= 10) {
                 // increment level
                 var levelElement = document.getElementById("levelValue");
                 if (levelElement) {
                     // Get the current points as a number
-                    exports.counterLevels.increment();
-                    if (exports.counterLevels.getValue() > 3) {
+                    counterLevels.increment();
+                    if (counterLevels.getValue() > 3) {
                         stopInterval();
                         var winText = document.getElementById("winText");
                         if (winText) {
@@ -130,15 +122,15 @@ function moveCible(step) {
                             window.location.reload();
                         }, 3000);
                     }
-                    levelElement.innerHTML = "".concat(exports.counterLevels.getValue());
+                    levelElement.innerHTML = "".concat(counterLevels.getValue());
                 }
-                exports.counterPoints.reset();
+                counterPoints.reset();
                 // Restart interval for new level
-                pointsElement.innerHTML = "".concat(exports.counterPoints.getValue());
+                pointsElement.innerHTML = "".concat(counterPoints.getValue());
                 stopInterval();
                 startInterval();
             }
-            pointsElement.innerHTML = "".concat(exports.counterPoints.getValue());
+            pointsElement.innerHTML = "".concat(counterPoints.getValue());
         }
         bounced = true;
     }
@@ -151,23 +143,23 @@ function moveCible(step) {
     // Check for collisions with screen borders
     var rect = cible.getBoundingClientRect();
     if (rect.left <= 0 || rect.right >= window.innerWidth) {
-        exports.cibleDx = -exports.cibleDx;
+        cibleDx = -cibleDx;
         bounced = true;
     }
     if (rect.top <= 0 || rect.bottom >= window.innerHeight) {
-        exports.cibleDy = -exports.cibleDy;
+        cibleDy = -cibleDy;
         bounced = true;
     }
     // If bounced, move away from collision
     if (bounced) {
-        nextTop = currentOffsetTop + step * exports.cibleDy;
-        nextLeft = currentOffsetLeft + step * exports.cibleDx;
+        nextTop = currentOffsetTop + step * cibleDy;
+        nextLeft = currentOffsetLeft + step * cibleDx;
         cible.style.top = nextTop + "px";
         cible.style.left = nextLeft + "px";
     }
 }
 // Checks for collisions with elements fosse and platforme
-function isCollidingWithElement(a, b) {
+export function isCollidingWithElement(a, b) {
     var rectA = a.getBoundingClientRect();
     var rectB = b.getBoundingClientRect();
     return !(rectA.right < rectB.left ||
@@ -176,7 +168,7 @@ function isCollidingWithElement(a, b) {
         rectA.top > rectB.bottom);
 }
 // Checks for collisions with screen
-function isCollidingWithScreen(cible) {
+export function isCollidingWithScreen(cible) {
     var rect = cible.getBoundingClientRect();
     return (rect.left <= 0 ||
         rect.right >= window.innerWidth ||

@@ -1,17 +1,9 @@
 import {
-    createCounter,
-    moveCible,
-    isCollidingWithElement,
-    isCollidingWithScreen,
-    getRandomDirection,
-    sign,
     counterLevels,
-    counterPoints,
     startInterval,
-    stopInterval,
-    cibleDx,
-    cibleDy
 } from "./functions.js";
+
+
 
 /* 
     This section moves the platform right and left within the bounds 
@@ -45,11 +37,5 @@ window.addEventListener("keydown", function(event) {
     platforme.style.left = currentOffsetLeft + "px";
 });
 
-/*
-    This section will animate the circle, randomly changing 
-    direction with each collision
-*/
-// Direction state for cible
-
 counterLevels.increment();
-window.onload = function() { startInterval(); };
+window.onload = function() { startInterval(); console.log(1) };
