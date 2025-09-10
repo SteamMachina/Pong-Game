@@ -1,26 +1,22 @@
-/*
-To sync with your TypeScript Colors interface, update these CSS variables from JS if needed.
-Example in JS/TS:
-document.documentElement.style.setProperty('--color-target-level1', colors.targetLevel1);
-*/
+/*colors predefined in functions.ts*/
 :root {
-  --color-target-level1: #00FFF9;
-  --color-target-level2: #00B8FF;
-  --color-target-level3: #4900FF;
-  --color-platform: #9600FF;
-  --color-pit: #FF00C1;
-  --color-points: #FF00C1;
-  --color-level: #FF00C1;
-  --color-wintext: #FF00C1;
+  --color-target-level1: #00fff9;
+  --color-target-level2: #00b8ff;
+  --color-target-level3: #4900ff;
+  --color-platform: #9600ff;
+  --color-pit: #ff00c1;
+  --color-points: #ff00c1;
+  --color-level: #ff00c1;
+  --color-wintext: #ff00c1;
   --color-background: black;
 }
 
-body{
+body {
   background-color: var(--color-background);
   overflow: hidden; /* Hide scrollbars */
 }
 
-#target{
+#target {
   height: 15vmin;
   width: 15vmin;
   border-radius: 50%;
@@ -30,7 +26,7 @@ body{
   left: 0;
 }
 
-#platform{
+#platform {
   height: 2vmin;
   width: 50vmin;
   background-color: var(--color-platform);
@@ -39,15 +35,15 @@ body{
   top: 80%;
 }
 
-#pit{
+#pit {
   height: 5px;
   width: 100%;
   background-color: var(--color-pit);
-  position:absolute;
+  position: absolute;
   top: 90%;
 }
 
-#info{
+#info {
   position: absolute;
   top: 0;
   right: 0;
@@ -59,13 +55,13 @@ body{
   justify-content: center;
 }
 
-#points{
+#points {
   font-size: 2vmin;
   color: var(--color-points);
   font-family: "Lucida Console";
 }
 
-#level{
+#level {
   font-size: 4vmin;
   color: var(--color-level);
   font-family: "Lucida Console";
@@ -75,7 +71,7 @@ body{
   display: none;
 }
 
-#winText{
+#winText {
   display: block;
   color: var(--color-wintext);
   font-family: "Lucida Console";

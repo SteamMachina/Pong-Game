@@ -18,18 +18,5 @@ This game is inspired by Pong. The player controls a platform using the left and
 ## Instructions to run the code:
 
 - In the command prompt, run: npm install -y typescript
-- Check that in package-lock.json you have: "type": "module"
-- Make sure there is a tsconfig.json file with:
-  {
-  "compilerOptions": {
-  "target": "ES6",
-  "module": "ES6",
-  "outDir": "./",
-  "rootDir": ".",
-  "strict": true,
-  "esModuleInterop": true
-  }
-  }
-- In the command prompt, run: tsc functions.ts --module ES6
-- In the command prompt, run: tsc script.ts --module ES6
+- In the command prompt, run: tsc
 - Open the main.html file
