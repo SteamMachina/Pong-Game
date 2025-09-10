@@ -5,6 +5,13 @@
     "outDir": "./",
     "rootDir": ".",
     "strict": true,
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+    "lib": ["es6", "dom"]
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ] 
 }

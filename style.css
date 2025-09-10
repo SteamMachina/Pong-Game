@@ -1,31 +1,48 @@
+/*
+To sync with your TypeScript Colors interface, update these CSS variables from JS if needed.
+Example in JS/TS:
+document.documentElement.style.setProperty('--color-target-level1', colors.targetLevel1);
+*/
+:root {
+  --color-target-level1: #00FFF9;
+  --color-target-level2: #00B8FF;
+  --color-target-level3: #4900FF;
+  --color-platform: #9600FF;
+  --color-pit: #FF00C1;
+  --color-points: #FF00C1;
+  --color-level: #FF00C1;
+  --color-wintext: #FF00C1;
+  --color-background: black;
+}
+
 body{
-  background-color: black;
+  background-color: var(--color-background);
   overflow: hidden; /* Hide scrollbars */
 }
 
-#cible{
+#target{
   height: 15vmin;
   width: 15vmin;
   border-radius: 50%;
-  background-color: #00FFF9;
+  background-color: var(--color-target-level1);
   position: absolute;
   top: 0;
   left: 0;
 }
 
-#platforme{
+#platform{
   height: 2vmin;
   width: 50vmin;
-  background-color: #9600FF;
+  background-color: var(--color-platform);
   border-radius: 15px;
   position: absolute;
   top: 80%;
 }
 
-#fosse{
+#pit{
   height: 5px;
   width: 100%;
-  background-color: #FF00C1;
+  background-color: var(--color-pit);
   position:absolute;
   top: 90%;
 }
@@ -44,13 +61,13 @@ body{
 
 #points{
   font-size: 2vmin;
-  color: #FF00C1;
+  color: var(--color-points);
   font-family: "Lucida Console";
 }
 
 #level{
   font-size: 4vmin;
-  color: #FF00C1;
+  color: var(--color-level);
   font-family: "Lucida Console";
 }
 
@@ -60,7 +77,7 @@ body{
 
 #winText{
   display: block;
-  color: #FF00C1;
+  color: var(--color-wintext);
   font-family: "Lucida Console";
   font-size: 10vmin;
   /*to center*/

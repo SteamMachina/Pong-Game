@@ -5,19 +5,19 @@ import { counterLevels, startInterval, } from "./functions.js";
 */
 window.addEventListener("keydown", function (event) {
     // get platform info
-    var platforme = document.getElementById("platforme");
-    if (!platforme)
+    const platform = document.getElementById("platform");
+    if (!platform)
         return;
-    var platformeWidth = platforme.offsetWidth;
-    var currentOffsetLeft = platforme.offsetLeft;
+    const platformWidth = platform.offsetWidth;
+    let currentOffsetLeft = platform.offsetLeft;
     // get window info
-    var screenWidth = window.screen.availWidth;
-    var step = screenWidth / 50;
+    const screenWidth = window.screen.availWidth;
+    const step = screenWidth / 50;
     // go left or right
-    var direction = event.key;
+    let direction = event.key;
     switch (direction) {
         case "ArrowRight":
-            if (currentOffsetLeft + platformeWidth + step < screenWidth) {
+            if (currentOffsetLeft + platformWidth + step < screenWidth) {
                 currentOffsetLeft += step;
             }
             break;
@@ -27,7 +27,7 @@ window.addEventListener("keydown", function (event) {
             }
             break;
     }
-    platforme.style.left = currentOffsetLeft + "px";
+    platform.style.left = currentOffsetLeft + "px";
 });
 counterLevels.increment();
 window.onload = function () { startInterval(); console.log(1); };
