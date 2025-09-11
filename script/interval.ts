@@ -6,6 +6,7 @@ import { moveTarget } from "./movement.js";
 /*                Interval              */
 /****************************************/
 export let intervalId: number | null = null;
+let difficulty: "easy" | "medium" | "hard" = "easy";
 
 // runs the moveTarget() according to level settings
 export function startInterval(): void {
@@ -15,18 +16,33 @@ export function startInterval(): void {
       if (!target) {
         return;
       }
-      // change difficulty depending on level
+      // change difficulty depending on level and selected difficulty
       const currentLevel: number = counterLevels.getValue();
 
       interface Level {
         step: number;
         time: number;
       }
-      const levels: Level[] = [
-        { step: 4, time: 10 },
-        { step: 5, time: 10 },
-        { step: 7, time: 10 },
-      ];
+      let levels: Level[];
+      if (difficulty === "easy") {
+        levels = [
+          { step: 5, time: 10 },
+          { step: 6, time: 10 },
+          { step: 7, time: 10 },
+        ];
+      } else if (difficulty === "medium") {
+        levels = [
+          { step: 6, time: 10 },
+          { step: 8, time: 10 },
+          { step: 10, time: 10 },
+        ];
+      } else {
+        levels = [
+          { step: 8, time: 10 },
+          { step: 10, time: 10 },
+          { step: 12, time: 10 },
+        ];
+      }
       const levelsCopy: Level[] = [...levels]; // done only because of project requirements, otherwise useless
       const [level1, level2, level3]: Level[] = levelsCopy;
 
@@ -65,4 +81,8 @@ export function stopInterval(): void {
     clearInterval(intervalId);
     intervalId = null;
   }
+}
+
+export function setDifficulty(level: "easy" | "medium" | "hard") {
+  difficulty = level;
 }

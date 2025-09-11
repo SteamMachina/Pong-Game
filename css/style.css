@@ -81,3 +81,49 @@ body {
   top: 50%;
   left: 50%;
 }
+
+#startScreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#startScreen h1 {
+  color: var(--color-target-level1);
+  font-size: 8vmin;
+  margin-bottom: 3vmin;
+  font-family: "Lucida Console";
+}
+
+#settings {
+  margin-bottom: 3vmin;
+  color: white;
+  font-size: 3vmin;
+}
+
+#startBtn {
+  font-size: 3vmin;
+  padding: 1vmin 4vmin;
+  border-radius: 10px;
+  border: none;
+  background: var(--color-platform);
+  color: white;
+  cursor: pointer;
+  font-family: "Lucida Console";
+}
+
+#startBtn:hover {
+  background: var(--color-target-level2);
+}
+
+label{
+  font-family: "Lucida Console";
+}

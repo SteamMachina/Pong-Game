@@ -6,6 +6,18 @@
     <script type="module" src="../script/main.js"></script>
   </head>
   <body>
+    <div id="startScreen">
+      <h1>Pong Game</h1>
+      <div id="settings">
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+      <button id="startBtn">Start Game</button>
+    </div>
     <div id="info">
       <p id="level">Level : <span id="levelValue">1</span></p>
       <p id="points">Points : <span id="pointsValue">0</span></p>

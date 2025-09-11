@@ -1,5 +1,5 @@
-import { startInterval } from "./interval.js";
 import { counterLevels } from "./counters.js";
+import { setupStartMenu } from "./startmenu.js";
 
 /****************************************/
 /*            Game flo start            */
@@ -7,7 +7,6 @@ import { counterLevels } from "./counters.js";
 // start at level 1
 counterLevels.increment();
 
-// start moving the target
-window.onload = function (): void {
-  startInterval();
-};
+window.addEventListener('DOMContentLoaded', async function() {
+  setupStartMenu();
+});

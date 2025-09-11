@@ -8,15 +8,23 @@ This game is inspired by Pong. The player controls a platform using the left and
 
 - main.html: Main HTML file that launches the Pong game in the browser.
 - style.css: Stylesheet for the game's appearance.
-- script.ts / script.js: Main game script, handles gameplay logic (platform control, level management, score, etc.).
-- functions.ts / functions.js: Contains utility functions or reusable modules for the game.
+- script/main.ts / main.js: Main game script, handles gameplay logic (platform control, level management, score, etc.).
+- script/startmenu.ts / startmenu.js: Handles the start menu UI and logic.
+- script/colors.ts / colors.js: Color palette logic, including fetching palettes from the backend.
+- script/counters.ts / counters.js: Level and point counters.
+- script/interval.ts / interval.js: Handles game intervals and timing.
+- script/movement.ts / movement.js: Handles target/platform movement.
+- backend/colormind-proxy.js: Node.js backend proxy for fetching color palettes from Colormind API (avoids CORS issues).
 - tsconfig.json: TypeScript configuration to compile .ts files to .js.
 - package.json: Manages project dependencies and scripts (notably TypeScript).
 - README.md: Project documentation.
-- Projet renforcement module JS \_ TS.pdf: Project specifications (in French).
 
 ## Instructions to run the code:
 
 - In the git bash, run: npm install -y typescript
 - In the git bash, run: tsc
 - Open the main.html file
+
+## Github link
+
+https://github.com/SteamMachina/Pong-Game
