@@ -14,7 +14,6 @@ This game is inspired by Pong. The player controls a platform using the left and
 - script/counters.ts / counters.js: Level and point counters.
 - script/interval.ts / interval.js: Handles game intervals and timing.
 - script/movement.ts / movement.js: Handles target/platform movement.
-- backend/colormind-proxy.js: Node.js backend proxy for fetching color palettes from Colormind API (avoids CORS issues).
 - tsconfig.json: TypeScript configuration to compile .ts files to .js.
 - package.json: Manages project dependencies and scripts (notably TypeScript).
 - README.md: Project documentation.
