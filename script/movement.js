@@ -7,71 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-/****************************************/
-/*                Interval              */
-/****************************************/
-export let intervalId = null;
-// runs the moveTarget() according to level settings
-export function startInterval() {
-    try {
-        if (!intervalId) {
-            const target = document.getElementById("target");
-            if (!target) {
-                return;
-            }
-            // change difficulty depending on level
-            const currentLevel = counterLevels.getValue();
-            const levels = [
-                { step: 4, time: 10 },
-                { step: 5, time: 10 },
-                { step: 7, time: 10 },
-            ];
-            const levelsCopy = [...levels]; // done only because of project requirements, otherwise useless
-            const [level1, level2, level3] = levelsCopy;
-            switch (currentLevel) {
-                case 1:
-                    target.style.backgroundColor = colors.targetLevel1;
-                    intervalId = window.setInterval(() => moveTarget(level1.step), level1.time);
-                    break;
-                case 2:
-                    target.style.backgroundColor = colors.targetLevel2;
-                    intervalId = window.setInterval(() => moveTarget(level2.step), level2.time);
-                    break;
-                case 3:
-                    target.style.backgroundColor = colors.targetLevel3;
-                    intervalId = window.setInterval(() => moveTarget(level3.step), level3.time);
-                    break;
-            }
-        }
-    }
-    catch (error) {
-        console.error("Error in startInterval:", error);
-    }
-}
-// stops interval
-export function stopInterval() {
-    if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-    }
-}
-export function createCounter() {
-    let counter = 0;
-    return {
-        increment: function () {
-            counter++;
-        },
-        getValue: function () {
-            return counter;
-        },
-        reset: function () {
-            counter = 0;
-        },
-    };
-}
-// Starts counters
-export const counterLevels = createCounter();
-export const counterPoints = createCounter();
+import { counterPoints, counterLevels } from "./counters.js";
+import { stopInterval, startInterval } from "./interval.js";
 /****************************************/
 /*     Moving target and game flow      */
 /****************************************/
@@ -195,14 +132,37 @@ export function isCollidingWithElement(a, b) {
         rectA.bottom < rectB.top ||
         rectA.top > rectB.bottom);
 }
-export const colors = {
-    targetLevel1: "#00FFF9",
-    targetLevel2: "#00B8FF",
-    targetLevel3: "#4900FF",
-    platform: "#9600FF",
-    pit: "#FF00C1",
-    points: "#FF00C1",
-    level: "#FF00C1",
-    winText: "#FF00C1",
-    background: "black",
-};
+/****************************************/
+/*          Platform movement           */
+/****************************************/
+window.addEventListener("keydown", function (event) {
+    try {
+        // get platform info
+        const platform = document.getElementById("platform");
+        if (!platform)
+            return;
+        const platformWidth = platform.offsetWidth;
+        let currentOffsetLeft = platform.offsetLeft;
+        // get window info
+        const screenWidth = window.screen.availWidth;
+        const step = screenWidth / 50;
+        // go left or right within window bounds
+        let direction = event.key;
+        switch (direction) {
+            case "ArrowRight":
+                if (currentOffsetLeft + platformWidth + step < screenWidth) {
+                    currentOffsetLeft += step;
+                }
+                break;
+            case "ArrowLeft":
+                if (currentOffsetLeft - step > 0) {
+                    currentOffsetLeft -= step;
+                }
+                break;
+        }
+        platform.style.left = currentOffsetLeft + "px";
+    }
+    catch (error) {
+        console.error("Error in keydown event:", error);
+    }
+});
