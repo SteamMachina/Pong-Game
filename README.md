@@ -21,8 +21,8 @@ This game is inspired by Pong. The player controls a platform using the left and
 ## Instructions to run the code:
 
 - In the terminal, run: npm install -y typescript
-- In the terminal, run: tsc
-- Open the main.html file
+- In the terminal, run: npx tsc
+- start a live server using a vscode extension for example
 
 ## Github link
 
